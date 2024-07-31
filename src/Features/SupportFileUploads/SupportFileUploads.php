@@ -31,10 +31,18 @@ class SupportFileUploads extends ComponentHook
             }
         });
 
-        Route::post('/livewire/upload-file', [FileUploadController::class, 'handle'])
-            ->name('livewire.upload-file');
+        $url = config('livewire.routes.livewire_upload-file.url');
+        $middlewares = config('livewire.routes.livewire_upload-file.middlewares');
 
-        Route::get('/livewire/preview-file/{filename}', [FilePreviewController::class, 'handle'])
-            ->name('livewire.preview-file');
+        Route::post($url, [FileUploadController::class, 'handle'])
+            ->name('livewire.upload-file')
+            ->middleware( $middlewares);
+
+        $url = config('livewire.routes.livewire_preview-file.url');
+        $middlewares = config('livewire.routes.livewire_preview-file.middlewares');
+
+        Route::get($url, [FilePreviewController::class, 'handle'])
+            ->name('livewire.preview-file')
+            ->middleware($middlewares);
     }
 }

@@ -121,9 +121,9 @@ class LivewireManager
         SupportAutoInjectedAssets::$forceAssetInjection = true;
     }
 
-    function setUpdateRoute($callback)
+    function setUpdateRoute($callback, $url = null, $middlewares = null)
     {
-        return app(HandleRequests::class)->setUpdateRoute($callback);
+        return app(HandleRequests::class)->setUpdateRoute($callback, $url, $middlewares);
     }
 
     function getUpdateUri()
@@ -131,9 +131,9 @@ class LivewireManager
         return app(HandleRequests::class)->getUpdateUri();
     }
 
-    function setScriptRoute($callback)
+    function setScriptRoute($callback, $url = null, $middlewares = null)
     {
-        return app(FrontendAssets::class)->setScriptRoute($callback);
+        return app(FrontendAssets::class)->setScriptRoute($callback), $url, $middlewares;
     }
 
     function useScriptTagAttributes($attributes)

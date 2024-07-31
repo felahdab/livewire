@@ -157,4 +157,48 @@ return [
     */
 
     'pagination_theme' => 'tailwind',
+
+    /*
+    |---------------------------------------------------------------------------
+    | Route and middleware management
+    |---------------------------------------------------------------------------
+    |
+    | Livewire register 4 routes into Laravel:
+    | livewire.update: which is used for all common requests emitted by the frontend.
+    | livewire.upload-file: which is used by the UploadFile feature.
+    | livewire.preview-file: which is used for the preview feature.
+    | and an unammed route which is used to serve the underlying javascript asset which
+    | makes Livewire work on the client side.
+    |
+    | The following section allows to define for each of these routes the url and the 
+    | associated middleware to apply.
+    |
+    */
+
+    'routes' => [
+        'livewire_update' => [
+            'url' => '/livewire/update',
+            'middlewares' => ['web'],
+        ],
+        'livewire_upload-file' => [
+            'url' => '/livewire/upload-file',
+            'middlewares' => ['web'],
+        ],
+        /* Warning: the livewire_preview-file route should contain the {filename} parameter which
+        | is necessary for the model binding into the FileUploadController method which is called.
+        */
+        'livewire_preview-file' => [
+            'url' => '/livewire/preview-file/{filename}',
+            'middlewares' => ['web'],
+        ],
+        /* The url_debug url is used in config('app.debug') is true. The underlying controller will
+        | serve a minified version of the js when config('app.debug') is false, and a minified one
+        | when config('app.debug') is true.
+        */
+        'livewire_asset' => [
+            'url' => '/livewire/livewire.js',
+            'url_debug' => '/livewire/livewire.min.js',
+            'middlewares' => [],
+        ]
+    ],
 ];

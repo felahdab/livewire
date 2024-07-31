@@ -19,10 +19,8 @@ class FrontendAssets extends Mechanism
 
     public function boot()
     {
-        app($this::class)->setScriptRoute(function ($handle) {
-            return config('app.debug')
-                ? Route::get('/livewire/livewire.js', $handle)
-                : Route::get('/livewire/livewire.min.js', $handle);
+        app($this::class)->setScriptRoute(function ($handle, $url, $middlewares) {
+            return Route::get($url, $handle)->middleware($middlewares);
         });
 
         Route::get('/livewire/livewire.min.js.map', [static::class, 'maps']);
@@ -53,9 +51,13 @@ class FrontendAssets extends Mechanism
         $this->scriptTagAttributes = array_merge($this->scriptTagAttributes, $attributes);
     }
 
-    function setScriptRoute($callback)
+    function setScriptRoute($callback, $url=null, $middlewares = null))
     {
-        $route = $callback([self::class, 'returnJavaScriptAsFile']);
+        $config_route = config('app.debug') ? config('livewire.routes.livewire_update.url') : config('livewire.routes.livewire_update.url_debug');
+        $url = $url ?? $config_route;
+        $middlewares = $middlewares ?? config('livewire.routes.livewire_update.middlewares');
+
+        $route = $callback([self::class, 'returnJavaScriptAsFile'], $url, $middlewares);
 
         $this->javaScriptRoute = $route;
     }

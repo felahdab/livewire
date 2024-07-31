@@ -17,8 +17,8 @@ class HandleRequests extends Mechanism
     {
         // Only set it if another provider hasn't already set it....
         if (! $this->updateRoute) {
-            app($this::class)->setUpdateRoute(function ($handle) {
-                return Route::post('/livewire/update', $handle)->middleware('web');
+            app($this::class)->setUpdateRoute(function ($handle, $url, $middlewares) {
+                return Route::post($url, $handle)->middleware($middlewares);
             });
         }
 
@@ -43,9 +43,12 @@ class HandleRequests extends Mechanism
         });
     }
 
-    function setUpdateRoute($callback)
+    function setUpdateRoute($callback, $url=null, $middlewares=null)
     {
-        $route = $callback([self::class, 'handleUpdate']);
+        $url = $url ?? config('livewire.routes.livewire_update.url');
+        $middlewares = $middlewares ?? config('livewire.routes.livewire_update.middlewares');
+
+        $route = $callback([self::class, 'handleUpdate'], $url, $middlewares);
 
         // Append `livewire.update` to the existing name, if any.
         if (! str($route->getName())->endsWith('livewire.update')) {
