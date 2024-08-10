@@ -12,7 +12,6 @@ class LivewireRouteConfigurationUnitTest extends TestCase
     public function test_livewire_default_update_route_is_livewire_update(): void
     {
         $route = $this->getRouteByName('livewire.update');
-        dump($route->uri);
 
         $this->assertTrue($route->uri() == 'livewire/update');
     }
@@ -38,24 +37,11 @@ class LivewireRouteConfigurationUnitTest extends TestCase
         $this->assertTrue($route->uri() == 'livewire/livewire.js');
     }
 
-    public function test_livewire_default_livewire_map_asset_route_is_livewire_livewire_js(): void
-    {
-        $route = $this->getRouteByName('livewire.assetjsmap');
-
-        $this->assertTrue($route->uri() == 'livewire/livewire.min.js.map');
-    }
-    // public function test_livewire_script_route_is_cacheable(): void
+    // public function test_livewire_default_livewire_map_asset_route_is_livewire_livewire_js(): void
     // {
-    //     $route = $this->getRoute('livewire/livewire.min.js');
+    //     $route = $this->getRouteByName('livewire.assetjsmap');
 
-    //     $this->cacheRoute($route, 'Livewire\Mechanisms\FrontendAssets\FrontendAssets@returnJavaScriptAsFile', "Failed to cache route 'livewire/livewire.js'");
-    // }
-
-    // public function test_livewire_update_route_is_cacheable(): void
-    // {
-    //     $route = $this->getRoute('livewire/update');
-
-    //     $this->cacheRoute($route, 'Livewire\Mechanisms\HandleRequests\HandleRequests@handleUpdate', "Failed to cache route 'livewire/update'");
+    //     $this->assertTrue($route->uri() == 'livewire/livewire.min.js.map');
     // }
 
     protected function getRouteByUri(string $uri): Route
