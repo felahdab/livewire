@@ -14,35 +14,35 @@ class LivewireRouteConfigurationUnitTest extends TestCase
         $route = $this->getRouteByName('livewire.update');
         dump($route->uri);
 
-        $this->assertTrue($route->uri() == '/livewire/update');
+        $this->assertTrue($route->uri() == 'livewire/update');
     }
 
     public function test_livewire_default_livewire_upload_file_route_is_livewire_upload(): void
     {
         $route = $this->getRouteByName('livewire.upload-file');
 
-        $this->assertTrue($route->uri() == '/livewire/upload-file');
+        $this->assertTrue($route->uri() == 'livewire/upload-file');
     }
 
     public function test_livewire_default_livewire_file_preview_route_is_livewire_preview_file(): void
     {
         $route = $this->getRouteByName('livewire.preview-file');
 
-        $this->assertTrue($route->uri() == '/livewire/preview-file/{filename}');
+        $this->assertTrue($route->uri() == 'livewire/preview-file/{filename}');
     }
 
     public function test_livewire_default_livewire_asset_route_is_livewire_livewire_js(): void
     {
         $route = $this->getRouteByName('livewire.assetjs');
 
-        $this->assertTrue($route->uri() == '/livewire/livewire.js');
+        $this->assertTrue($route->uri() == 'livewire/livewire.js');
     }
 
     public function test_livewire_default_livewire_map_asset_route_is_livewire_livewire_js(): void
     {
         $route = $this->getRouteByName('livewire.assetjsmap');
 
-        $this->assertTrue($route->uri() == '/livewire/livewire.min.js.map');
+        $this->assertTrue($route->uri() == 'livewire/livewire.min.js.map');
     }
     // public function test_livewire_script_route_is_cacheable(): void
     // {
