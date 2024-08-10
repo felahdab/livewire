@@ -196,8 +196,8 @@ return [
         | when config('app.debug') is true.
         */
         'livewire_asset' => [
-            'url' => '/livewire/livewire.js',
-            'url_debug' => '/livewire/livewire.min.js',
+            'url' => '/livewire/livewire.min.js',
+            'url_debug' => '/livewire/livewire.js',
             'middlewares' => [],
         ],
         'livewire_asset_map' => [
