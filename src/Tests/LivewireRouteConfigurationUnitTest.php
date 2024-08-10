@@ -7,8 +7,12 @@ use Exception;
 use Illuminate\Routing\Route;
 use Tests\TestCase;
 
+use Livewire\Mechanisms\HandleRequests\HandleRequests;
+
 class LivewireRouteConfigurationUnitTest extends TestCase
 {
+    /* These first tests check the default setup of livewire routes. 
+    */
     public function test_livewire_default_update_route_is_livewire_update(): void
     {
         $route = $this->getRouteByName('livewire.update');
@@ -43,6 +47,23 @@ class LivewireRouteConfigurationUnitTest extends TestCase
 
     //     $this->assertTrue($route->uri() == 'livewire/livewire.min.js.map');
     // }
+
+    /* These tests check the new functionnalities for route registration
+    */
+    public function test_livewire_default_update_route_is_respecting_config(): void
+    {
+        // We change the configuration
+        config()->set('livewire.routes.livewire_update.url', 'custom/livewire/update/route')
+        // We register the update route
+        app(HandleRequests::class)->setUpdateRoute(function ($handle, $url, $middlewares) {
+            return Route::post($url, $handle)->middleware($middlewares);
+        });
+
+        // We check that the new route is taken into account.
+        $route = $this->getRouteByName('livewire.update');
+
+        $this->assertTrue($route->uri() == 'custom/livewire/update/route');
+    }
 
     protected function getRouteByUri(string $uri): Route
     {
