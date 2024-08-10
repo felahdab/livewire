@@ -61,6 +61,7 @@ class LivewireRouteConfigurationUnitTest extends TestCase
 
         // We check that the new route is taken into account.
         $route = $this->getRouteByName('livewire.update');
+        collect(\Illuminate\Support\Facades\Route::getRoutes());
 
         $this->assertTrue($route->uri() == 'custom/livewire/update/route');
     }
