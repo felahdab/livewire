@@ -7,7 +7,7 @@ use Exception;
 use Illuminate\Routing\Route;
 use Tests\TestCase;
 
-class LivewireRouteConfigurationTest extends TestCase
+class LivewireRouteConfigurationUnitTest extends TestCase
 {
     public function test_livewire_default_update_route_is_livewire_update(): void
     {
