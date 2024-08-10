@@ -56,7 +56,7 @@ class LivewireRouteConfigurationUnitTest extends TestCase
         config()->set('livewire.routes.livewire_update.url', 'custom/livewire/update/route');
         // We register the update route
         app(HandleRequests::class)->setUpdateRoute(function ($handle, $url, $middlewares) {
-            return Route::post($url, $handle)->middleware($middlewares);
+            return \Illuminate\Support\Facades\Route::post($url, $handle)->middleware($middlewares);
         });
 
         // We check that the new route is taken into account.
