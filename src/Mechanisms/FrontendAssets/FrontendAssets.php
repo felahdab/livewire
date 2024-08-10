@@ -69,6 +69,8 @@ class FrontendAssets extends Mechanism
         $middlewares = $middlewares ?? config('livewire.routes.livewire_asset.middlewares');
 
         $route = $callback([self::class, 'returnJavaScriptAsFile'], $url, $middlewares);
+        $route->name('livewire.assetjs');
+
 
         $this->javaScriptRoute = $route;
     }
@@ -79,6 +81,7 @@ class FrontendAssets extends Mechanism
         $middlewares = $middlewares ?? config('livewire.routes.livewire_asset_map.middlewares');
 
         $route = $callback([self::class, 'maps'], $url, $middlewares);
+        $route->name('livewire.assetjsmap');
 
         $this->javaScriptMapRoute = $route;
     }
