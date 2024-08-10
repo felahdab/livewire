@@ -11,37 +11,38 @@ class LivewireRouteConfigurationUnitTest extends TestCase
 {
     public function test_livewire_default_update_route_is_livewire_update(): void
     {
-        $update_route = $this->getRouteByName('livewire.update');
+        $route = $this->getRouteByName('livewire.update');
+        dump($route->uri);
 
-        $this->assertTrue($update_route->uri() == '/livewire/update');
+        $this->assertTrue($route->uri() == '/livewire/update');
     }
 
     public function test_livewire_default_livewire_upload_file_route_is_livewire_upload(): void
     {
-        $update_route = $this->getRouteByName('livewire.upload-file');
+        $route = $this->getRouteByName('livewire.upload-file');
 
-        $this->assertTrue($update_route->uri() == '/livewire/upload-file');
+        $this->assertTrue($route->uri() == '/livewire/upload-file');
     }
 
     public function test_livewire_default_livewire_file_preview_route_is_livewire_preview_file(): void
     {
-        $update_route = $this->getRouteByName('livewire.preview-file');
+        $route = $this->getRouteByName('livewire.preview-file');
 
-        $this->assertTrue($update_route->uri() == 'ffast/livewire/preview-file/{filename}');
+        $this->assertTrue($route->uri() == '/livewire/preview-file/{filename}');
     }
 
     public function test_livewire_default_livewire_asset_route_is_livewire_livewire_js(): void
     {
-        $update_route = $this->getRouteByName('livewire.assetjs');
+        $route = $this->getRouteByName('livewire.assetjs');
 
-        $this->assertTrue($update_route->uri() == '/livewire/livewire.js');
+        $this->assertTrue($route->uri() == '/livewire/livewire.js');
     }
 
     public function test_livewire_default_livewire_map_asset_route_is_livewire_livewire_js(): void
     {
-        $update_route = $this->getRouteByName('livewire.assetjsmap');
+        $route = $this->getRouteByName('livewire.assetjsmap');
 
-        $this->assertTrue($update_route->uri() == '/livewire/livewire.min.js.map');
+        $this->assertTrue($route->uri() == '/livewire/livewire.min.js.map');
     }
     // public function test_livewire_script_route_is_cacheable(): void
     // {
