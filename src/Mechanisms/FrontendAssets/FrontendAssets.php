@@ -14,14 +14,25 @@ class FrontendAssets extends Mechanism
     public $hasRenderedStyles = false;
 
     public $javaScriptRoute;
+    public $javaScriptMapRoute;
 
     public $scriptTagAttributes = [];
 
     public function boot()
     {
-        app($this::class)->setScriptRoute(function ($handle, $url, $middlewares) {
-            return Route::get($url, $handle)->middleware($middlewares);
-        });
+
+        // Only set it if another provider hasn't already set it....
+        if (! $this->javaScriptRoute){
+            app($this::class)->setScriptRoute(function ($handle, $url, $middlewares) {
+                return Route::get($url, $handle)->middleware($middlewares);
+            });
+        }
+
+        if (! $this->javaScriptMapRoute){
+            app($this::class)->setScriptMapRoute(function ($handle, $url, $middlewares) {
+                return Route::get($url, $handle)->middleware($middlewares);
+            });
+        }
 
         Route::get('/livewire/livewire.min.js.map', [static::class, 'maps']);
 
@@ -51,15 +62,25 @@ class FrontendAssets extends Mechanism
         $this->scriptTagAttributes = array_merge($this->scriptTagAttributes, $attributes);
     }
 
-    function setScriptRoute($callback, $url=null, $middlewares = null))
+    function setScriptRoute($callback, $url=null, $middlewares = null)
     {
-        $config_route = config('app.debug') ? config('livewire.routes.livewire_update.url') : config('livewire.routes.livewire_update.url_debug');
+        $config_route = config('app.debug') ? config('livewire.routes.livewire_asset.url') : config('livewire.routes.livewire_asset.url_debug');
         $url = $url ?? $config_route;
-        $middlewares = $middlewares ?? config('livewire.routes.livewire_update.middlewares');
+        $middlewares = $middlewares ?? config('livewire.routes.livewire_asset.middlewares');
 
         $route = $callback([self::class, 'returnJavaScriptAsFile'], $url, $middlewares);
 
         $this->javaScriptRoute = $route;
+    }
+
+    function setScriptMapRoute($callback, $url=null, $middlewares = null)
+    {
+        $url = $url ?? config('livewire.routes.livewire_asset_map.url');
+        $middlewares = $middlewares ?? config('livewire.routes.livewire_asset_map.middlewares');
+
+        $route = $callback([self::class, 'maps'], $url, $middlewares);
+
+        $this->javaScriptMapRoute = $route;
     }
 
     public static function livewireScripts($expression)

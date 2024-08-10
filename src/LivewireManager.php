@@ -133,7 +133,12 @@ class LivewireManager
 
     function setScriptRoute($callback, $url = null, $middlewares = null)
     {
-        return app(FrontendAssets::class)->setScriptRoute($callback), $url, $middlewares;
+        return app(FrontendAssets::class)->setScriptRoute($callback, $url, $middlewares);
+    }
+    
+    function setScriptMapRoute($callback, $url = null, $middlewares = null)
+    {
+        return app(FrontendAssets::class)->setScriptMapRoute($callback, $url, $middlewares);
     }
 
     function useScriptTagAttributes($attributes)

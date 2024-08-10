@@ -59,28 +59,57 @@ If you'd rather force Livewire to inject its assets on a single page or multiple
 
 ## Configuring Livewire's update endpoint
 
-Every update in a Livewire component sends a network request to the server at the following endpoint: `https://example.com/livewire/update`
+Every update in a Livewire component sends a network request to the server at the following default endpoint: `https://example.com/livewire/update`
 
-This can be a problem for some applications that use localization or multi-tenancy.
+This can be a problem for some applications that use localization or multi-tenancy, or that have specific constraints on their URL space.
 
-In those cases, you can register your own endpoint however you like, and as long as you do it inside `Livewire::setUpdateRoute()`,  Livewire will know to use this endpoint for all component updates:
+In those cases, you can register your own endpoint however you like.
+Ir order to do that, you can either change the configuration of livewire or use the provided  method `Livewire::setUpdateRoute():
+
+### Using the configuration
+By default, when the Livewire service provider is registered then booted, it will register its routes by taking the definition from the configuration.
+
+Livewire's configuration includes a `routes` section which allows you to define the url and the middleware to apply to the update endpoint.
+
+Change the `url` or the `middlewares` part as you need:
+```php
+'routes' => [
+        'livewire_update' => [
+            'url' => '/livewire/update',
+            'middlewares' => ['web'],
+        ],
+```
+
+### Using the provided method
+If you prefer, you can use the `Livewire::setUpdateRoute($callback, $url = null, $middlewares = null)` method. 
+
+You must provide a callback to this method accepting 3 parameters: the handle which should handle the update requests, the url which should be registered for the update route, and the middlewares to apply.
+This callback is expected to return the registered route, and the setUpdateRoute will take care of naming the route appropriately so that the other components of Livewire recognize this new route as the livewire update route.
+
+Please note that you cannot change the handle which will always be the HandleRequests handleUpdate method.
+
+If you provide only the call back to the setUpdateRoute, this callback will be called with the url and the middlewares taken from livewire configuration :
 
 ```php
-Livewire::setUpdateRoute(function ($handle) {
+Livewire::setUpdateRoute(function ($handle, $url, $middlewares) {
 	return Route::post('/custom/livewire/update', $handle);
-});
+}); // setUpdateRoute is provided with the callback, but the $url and $middlewares parameters are left as null.
 ```
 
-Now, instead of using `/livewire/update`, Livewire will send component updates to `/custom/livewire/update`.
-
-Because Livewire allows you to register your own update route, you can declare any additional middleware you want Livewire to use directly inside `setUpdateRoute()`:
+If you also provide a url and a middlewares array, the callback will be called and passed those url and middlewares that you specified. The following example will define the livewire update route as begin `/custom/livewire/update/route` and will apply the 
 
 ```php
-Livewire::setUpdateRoute(function ($handle) {
-	return Route::post('/custom/livewire/update', $handle)
-        ->middleware([...]); // [tl! highlight]
-});
+Livewire::setUpdateRoute(function ($handle, $url, $middlewares) {
+	return Route::post($url, $handle)->middleware($middlewares);
+}, 
+'/custom/livewire/update/route',  // This will replace the url taken from the livewire configuration and provided to the callback.
+['web'] // This will replace the middlewares array taken from the livewire configuration.
+);
 ```
+
+Now, instead of using `/livewire/update`, Livewire will send component updates to `/custom/livewire/update/route`.
+
+Please also note that that `Livewire::setUpdateRoute()` will avoid to overwrite a previous call made for example from another service provider in order not to replace a custom defined endpoint with the default values.
 
 ## Customizing the asset URL
 
@@ -92,10 +121,13 @@ By default, Livewire will serve its JavaScript assets from the following URL: `h
 
 If your application has global route prefixes due to localization or multi-tenancy, you can register your own endpoint that Livewire should use internally when fetching its JavaScript.
 
-To use a custom JavaScript asset endpoint, you can register your own route inside `Livewire::setScriptRoute()`:
+Just as for the update endpoint, you can either use the livewire configuration section to define url and middlewares that will be registered for this route.
+You can specify the url for non-debug environnement, and the url for debug environnements.
+
+Or you can define the endpoint from another service provider by calling `Livewire::setScriptRoute()` which accepts exactly the same parameters as the `Livewire::setUpdateRoute($callback, $url = null, $middlewares = null)` method described above.
 
 ```php
-Livewire::setScriptRoute(function ($handle) {
+Livewire::setScriptRoute(function ($handle, $url, $middlewares) {
     return Route::get('/custom/livewire/livewire.js', $handle);
 });
 ```

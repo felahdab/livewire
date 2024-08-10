@@ -199,6 +199,10 @@ return [
             'url' => '/livewire/livewire.js',
             'url_debug' => '/livewire/livewire.min.js',
             'middlewares' => [],
+        ],
+        'livewire_asset_map' => [
+            'url' => '/livewire/livewire.min.js.map',
+            'middlewares' => [],
         ]
     ],
 ];
