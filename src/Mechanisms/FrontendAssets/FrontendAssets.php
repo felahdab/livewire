@@ -22,17 +22,17 @@ class FrontendAssets extends Mechanism
     {
 
         // Only set it if another provider hasn't already set it....
-        if (! $this->javaScriptRoute){
+        //if (! $this->javaScriptRoute){
             app($this::class)->setScriptRoute(function ($handle, $url, $middlewares) {
                 return Route::get($url, $handle)->middleware($middlewares);
             });
-        }
+        //}
 
-        if (! $this->javaScriptMapRoute){
+        //if (! $this->javaScriptMapRoute){
             app($this::class)->setScriptMapRoute(function ($handle, $url, $middlewares) {
                 return Route::get($url, $handle)->middleware($middlewares);
             });
-        }
+        //}
 
         Route::get('/livewire/livewire.min.js.map', [static::class, 'maps']);
 
