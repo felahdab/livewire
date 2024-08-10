@@ -30,11 +30,11 @@ class LivewireRouteConfigurationUnitTest extends TestCase
         $this->assertTrue($route->uri() == 'livewire/preview-file/{filename}');
     }
 
-    public function test_livewire_default_livewire_asset_route_is_livewire_livewire_js(): void
+    public function test_livewire_default_livewire_asset_route_is_livewire_livewire_min_js(): void
     {
         $route = $this->getRouteByName('livewire.assetjs');
 
-        $this->assertTrue($route->uri() == 'livewire/livewire.js');
+        $this->assertTrue($route->uri() == 'livewire/livewire.min.js');
     }
 
     // public function test_livewire_default_livewire_map_asset_route_is_livewire_livewire_js(): void
