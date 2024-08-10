@@ -53,7 +53,7 @@ class LivewireRouteConfigurationUnitTest extends TestCase
     public function test_livewire_default_update_route_is_respecting_config(): void
     {
         // We change the configuration
-        config()->set('livewire.routes.livewire_update.url', 'custom/livewire/update/route')
+        config()->set('livewire.routes.livewire_update.url', 'custom/livewire/update/route');
         // We register the update route
         app(HandleRequests::class)->setUpdateRoute(function ($handle, $url, $middlewares) {
             return Route::post($url, $handle)->middleware($middlewares);
