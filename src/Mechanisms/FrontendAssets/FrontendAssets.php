@@ -64,7 +64,7 @@ class FrontendAssets extends Mechanism
 
     function setScriptRoute($callback, $url=null, $middlewares = null)
     {
-        $config_route = config('app.debug') ? config('livewire.routes.livewire_asset.url') : config('livewire.routes.livewire_asset.url_debug');
+        $config_route = config('app.debug') ? config('livewire.routes.livewire_asset.url_debug') : config('livewire.routes.livewire_asset.url');
         $url = $url ?? $config_route;
         $middlewares = $middlewares ?? config('livewire.routes.livewire_asset.middlewares');
 
